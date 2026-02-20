@@ -693,7 +693,7 @@ configurations.all {
     exclude group: "com.google.errorprone", module: "error_prone_annotations"
     
     // When building with -Pcrypto.standard=FIPS-140-3, bcFips jars are provided by OpenSearch
-    // This prevents jar hell when the plugin is installed
+    // This prevents jar hell when the ml plugin is installed
     if (FipsBuildParams.isInFipsMode()) {
         exclude group: 'org.bouncycastle', module: 'bc-fips'
     }
