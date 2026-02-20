@@ -85,7 +85,7 @@ jobs:
                                echo "::add-mask::$COHERE_KEY" &&
                                echo "build and run tests" && ./gradlew build -x spotlessJava &&
                                echo "Publish to Maven Local" && ./gradlew publishToMavenLocal -x spotlessJava &&
-                               echo "Multi Nodes Integration Testing" && ./gradlew integTest -PnumNodes=3 -x spotlessJava'
+                               echo "Multi Nodes Integration Testing" && ./gradlew integTest -PnumNodes=3 -Pcrypto.standard=FIPS-140-3 -x spotlessJava'
           plugin=`basename $(ls plugin/build/distributions/*.zip)`
           echo $plugin
           mv -v plugin/build/distributions/$plugin ./
@@ -189,10 +189,10 @@ jobs:
           if [ $security -gt 0 ]
           then
             echo "Security plugin is available"
-            ./gradlew integTest -Dtests.rest.cluster=localhost:9200 -Dtests.cluster=localhost:9200 -Dtests.clustername="docker-cluster" -Dhttps=true -Duser=admin -Dpassword=${{ steps.genpass.outputs.password }} -x spotlessJava
+            ./gradlew integTest -Dtests.rest.cluster=localhost:9200 -Dtests.cluster=localhost:9200 -Dtests.clustername="docker-cluster" -Dhttps=true -Duser=admin -Dpassword=${{ steps.genpass.outputs.password }} -Pcrypto.standard=FIPS-140-3 -x spotlessJava
           else
             echo "Security plugin is NOT available"
-            ./gradlew integTest -Dtests.rest.cluster=localhost:9200 -Dtests.cluster=localhost:9200 -Dtests.clustername="docker-cluster" -x spotlessJava
+            ./gradlew integTest -Dtests.rest.cluster=localhost:9200 -Dtests.cluster=localhost:9200 -Dtests.clustername="docker-cluster" -Pcrypto.standard=FIPS-140-3 -x spotlessJava
           fi
 
       - name: Upload Coverage Report
